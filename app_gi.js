@@ -27,7 +27,7 @@ $(function() {
       var state = {
         year: '2012', 
         prefix: 'th',
-        drilldown: "teilhaushalte",
+        drilldown: "Teilhaushalte",
         drilldowns: ["Teilhaushalte"],
         cuts: {
           Kontotyp: art
