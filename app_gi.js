@@ -15,15 +15,15 @@ $(function() {
   OpenSpending.WidgetLink = Backbone.Router.extend({
     routes: {
         "": "home",
-        "th/:year/:art": "Teilhaushalte", //pg
-        "kt/:name/:year/:art": "Kostenträger" //pb
+        "th/:year/:art": "teilhaushalte", //pg
+        "kt/:name/:year/:art": "kostentraeger" //pb
     },
 
     home: function() {
       OpenSpending.app.navigate('th/2012/Aufwand', {trigger: true});
     },
     
-    produktgruppe: function(year, art) {
+    teilhaushalte: function(year, art) {
       var state = {
         year: '2012', 
         prefix: 'th',
@@ -38,7 +38,7 @@ $(function() {
       });
     },
 
-    produktbereich: function(name, year, art) {
+    kostentraeger: function(name, year, art) {
       var state = {
         year: '2012',
         prefix: 'kt/' + name,
