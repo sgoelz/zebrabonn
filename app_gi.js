@@ -28,9 +28,9 @@ $(function() {
         year: '2012', 
         prefix: 'th',
         drilldown: "teilhaushalte",
-        drilldowns: ["teilhaushalte"],
+        drilldowns: ["Teilhaushalte"],
         cuts: {
-          art: art
+          Kontotyp: art
         }
       };
       this.render(state, function(name) {
@@ -43,10 +43,10 @@ $(function() {
         year: '2012',
         prefix: 'kt/' + name,
         drilldown: "kostentraeger",
-        drilldowns: ["kostentraeger"],
+        drilldowns: ["Kostentraeger"],
         cuts: {
           produktbereich: name,
-          art: art
+          Kontotyp: art
         }
       };
       this.render(state, function(pname) {
