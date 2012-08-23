@@ -45,7 +45,7 @@ $(function() {
         drilldown: "Kostentraeger",
         drilldowns: ["Kostentraeger"],
         cuts: {
-          Kostentraeger: name, //produktbereich: name,
+          teilhaushalt: name, //produktbereich: name,
           kontotyp: art
         }
       };
