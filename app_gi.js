@@ -20,7 +20,7 @@ $(function() {
     },
 
     home: function() {
-      OpenSpending.app.navigate('th/2012/aufwand', {trigger: true});
+      OpenSpending.app.navigate('th/2012/Aufwand', {trigger: true});
     },
     
     teilhaushalt: function(year, art) {
