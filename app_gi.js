@@ -1,6 +1,6 @@
 $(function() {
   var context = {
-    dataset: "stadt_giessen",
+    dataset: "de_he_giessen",
     siteUrl: "http://openspending.org",
     pagesize: 50,
     createLabel: function(widget, domElement, node) {
@@ -15,22 +15,22 @@ $(function() {
   OpenSpending.WidgetLink = Backbone.Router.extend({
     routes: {
         "": "home",
-        "th/:year/:art": "teilhaushalte", //pg
-        "kt/:name/:year/:art": "kostentraeger" //pb
+        "th/:year/:art": "teilhaushalt", //pg
+        "kt/:name/:year/:art": "Kostentraeger" //pb
     },
 
     home: function() {
       OpenSpending.app.navigate('th/2012/aufwand', {trigger: true});
     },
     
-    teilhaushalte: function(year, art) {
+    teilhaushalt: function(year, art) {
       var state = {
-        year: '2012', 
+        year: year, 
         prefix: 'th',
-        drilldown: "Teilhaushalte",
-        drilldowns: ["Teilhaushalte"],
+        drilldown: "teilhaushalt",
+        drilldowns: ["teilhaushalt"],
         cuts: {
-          Kontotyp: art
+          kontotyp: art
         }
       };
       this.render(state, function(name) {
@@ -38,15 +38,15 @@ $(function() {
       });
     },
 
-    kostentraeger: function(name, year, art) {
+    Kostentraeger: function(name, year, art) {
       var state = {
-        year: '2012',
+        year: year,
         prefix: 'kt/' + name,
-        drilldown: "kostentraeger",
+        drilldown: "Kostentraeger",
         drilldowns: ["Kostentraeger"],
         cuts: {
-          produktbereich: name,
-          Kontotyp: art
+          Kostentraeger: name, //produktbereich: name,
+          kontotyp: art
         }
       };
       this.render(state, function(pname) {
