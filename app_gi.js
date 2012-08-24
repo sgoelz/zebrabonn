@@ -16,13 +16,13 @@ $(function() {
     routes: {
         "": "home",
         "th/:year/:art": "teilhaushalt", //pg
-        "kt/:name/:year/:art": "Kostentraeger" //pb
+        "kt/:name/:year/:art": "kostentraeger" //pb
     },
 
     home: function() {
       OpenSpending.app.navigate('th/2012/Aufwand', {trigger: true});
     },
-    
+
     teilhaushalt: function(year, art) {
       var state = {
         year: year, 
@@ -38,14 +38,14 @@ $(function() {
       });
     },
 
-    Kostentraeger: function(name, year, art) {
+    kostentraeger: function(name, year, art) {
       var state = {
         year: year,
         prefix: 'kt/' + name,
-        drilldown: "Kostentraeger",
-        drilldowns: ["Kostentraeger"],
+        drilldown: "kostentraeger",
+        drilldowns: ["kostentraeger"],
         cuts: {
-          teilhaushalt: name, //produktbereich: name,
+          teilhaushalt: name,
           kontotyp: art
         }
       };
@@ -63,7 +63,7 @@ $(function() {
 
       $('.openspending-link-filter').each(function(i, el) {
         el = $(el);
-        var art = state.cuts.art;
+        var art = state.cuts.kontotyp;
         var year = state.year;
         if (el.data('year')) {
           if (el.data('year')==year) {
