@@ -2,27 +2,22 @@ $(function() {
   var context = {
     dataset: "de_he_giessen",
     siteUrl: "http://openspending.org",
-    pagesize: 50,
-    createLabel: function(widget, domElement, node) {
-        if ((node.data.value/widget.total)>0.03) {
-          domElement.innerHTML = "<div class='desc'><h2>" + $.format.number(node.data.value, '#,##0.') + "&euro;</h2>" + node.name + "</div>";
-        }
-      }
+    pagesize: 50
     };
 
-  OpenSpending.scriptRoot = "http://clients.openspending.org/zebralog/bonn/openspendingjs";
+  OpenSpending.scriptRoot = "http://assets.openspending.org/openspendingjs/3662c73";
 
   OpenSpending.WidgetLink = Backbone.Router.extend({
     routes: {
         "": "home",
         "th/:year/:art": "teilhaushalt", //pg
-        "kt/:name/:year/:art": "Kostentraeger" //pb
+        "kt/:name/:year/:art": "kostentraeger" //pb
     },
 
     home: function() {
       OpenSpending.app.navigate('th/2012/Aufwand', {trigger: true});
     },
-    
+
     teilhaushalt: function(year, art) {
       var state = {
         year: year, 
@@ -38,21 +33,19 @@ $(function() {
       });
     },
 
-    Kostentraeger: function(name, year, art) {
+    kostentraeger: function(name, year, art) {
       var state = {
         year: year,
         prefix: 'kt/' + name,
-        drilldown: "Kostentraeger",
-        drilldowns: ["Kostentraeger"],
+        drilldown: "kostentraeger",
+        drilldowns: ["kostentraeger"],
         cuts: {
-          teilhaushalt: name, //produktbereich: name,
+          teilhaushalt: name,
           kontotyp: art
         }
       };
-      this.render(state, function(pname) {
-        var name_parts = pname.split("-");
-        document.location.href = 'http://clients.openspending.org/zebralog/bonn/details/' +
-          name_parts[0] + '.pdf';
+      this.render(state, function(name) {
+        console.log("Clicked: " + name);
       });
     },
 
@@ -63,7 +56,7 @@ $(function() {
 
       $('.openspending-link-filter').each(function(i, el) {
         el = $(el);
-        var art = state.cuts.art;
+        var art = state.cuts.kontotyp;
         var year = state.year;
         if (el.data('year')) {
           if (el.data('year')==year) {
@@ -87,11 +80,10 @@ $(function() {
 
       var treemap_dfd = new OpenSpending.Treemap($('.openspending#vis_widget'), treemap_ctx, state);
       var table_dfd = new OpenSpending.AggregateTable($('.openspending#table_widget'), context, state);
-      $.when(treemap_dfd.promise(), table_dfd.promise()).then(function(w) {
+      table_dfd.then(function(w) {
         $('.openspending#table_widget').unbind('click', 'td a');
         $('.openspending#table_widget').on('click', 'td a', function(e) {
           var name = $(e.target).data('name') + '';
-          if (name.length<2) name = '0' + name;
           callback(name);
           return false;
         });
