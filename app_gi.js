@@ -2,15 +2,10 @@ $(function() {
   var context = {
     dataset: "de_he_giessen",
     siteUrl: "http://openspending.org",
-    pagesize: 50,
-    createLabel: function(widget, domElement, node) {
-        if ((node.data.value/widget.total)>0.03) {
-          domElement.innerHTML = "<div class='desc'><h2>" + $.format.number(node.data.value, '#,##0.') + "&euro;</h2>" + node.name + "</div>";
-        }
-      }
+    pagesize: 50
     };
 
-  OpenSpending.scriptRoot = "http://clients.openspending.org/zebralog/bonn/openspendingjs";
+  OpenSpending.scriptRoot = "http://assets.openspending.org/openspendingjs/3662c73";
 
   OpenSpending.WidgetLink = Backbone.Router.extend({
     routes: {
@@ -49,10 +44,8 @@ $(function() {
           kontotyp: art
         }
       };
-      this.render(state, function(pname) {
-        var name_parts = pname.split("-");
-        document.location.href = 'http://clients.openspending.org/zebralog/bonn/details/' +
-          name_parts[0] + '.pdf';
+      this.render(state, function(name) {
+        console.log("Clicked: " + name);
       });
     },
 
@@ -87,11 +80,10 @@ $(function() {
 
       var treemap_dfd = new OpenSpending.Treemap($('.openspending#vis_widget'), treemap_ctx, state);
       var table_dfd = new OpenSpending.AggregateTable($('.openspending#table_widget'), context, state);
-      $.when(treemap_dfd.promise(), table_dfd.promise()).then(function(w) {
+      table_dfd.then(function(w) {
         $('.openspending#table_widget').unbind('click', 'td a');
         $('.openspending#table_widget').on('click', 'td a', function(e) {
           var name = $(e.target).data('name') + '';
-          if (name.length<2) name = '0' + name;
           callback(name);
           return false;
         });
